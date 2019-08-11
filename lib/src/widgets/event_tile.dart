@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:croc_hack/src/models/event.dart';
 import 'package:flutter/material.dart';
 
-import '../utils.dart';
-
 class EventTileState extends State<EventTile> {
   Event _event;
 
@@ -24,7 +22,7 @@ class EventTileState extends State<EventTile> {
         child: Stack(
           children: <Widget>[
             Image.memory(
-              base64Decode(/*_event.picture*/ Utils.pic),
+              base64Decode(_event.picture),
               width: double.infinity,
               alignment: Alignment.center,
               fit: BoxFit.fitWidth,

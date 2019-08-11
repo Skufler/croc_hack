@@ -10,6 +10,7 @@ class Event extends JsonSerializable {
   String description;
   String date;
   String picture;
+  String location;
   List<SubEvent> subEvents;
   List<Fight> fights;
   List<Character> characters;
@@ -20,6 +21,7 @@ class Event extends JsonSerializable {
       this.description,
       this.date,
       this.picture,
+      this.location,
       this.subEvents,
       this.fights,
       this.characters});
@@ -30,6 +32,7 @@ class Event extends JsonSerializable {
     description = json['description'];
     date = json['date'];
     picture = json['picture'];
+    location = json['location'];
     if (json['subevents'] != null) {
       subEvents = new List<SubEvent>();
       json['subevents'].forEach((v) {
@@ -56,6 +59,7 @@ class Event extends JsonSerializable {
     data['name'] = this.name;
     data['description'] = this.description;
     data['date'] = this.date;
+    data['location'] = this.location;
     data['picture'] = this.picture;
     if (this.subEvents != null) {
       data['subevents'] = this.subEvents.map((v) => v.toJson()).toList();

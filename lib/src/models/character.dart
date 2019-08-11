@@ -1,7 +1,9 @@
+import 'package:croc_hack/src/api/json_serializable.dart';
+
 import 'ability.dart';
 import 'cosplay_element.dart';
 
-class Character {
+class Character extends JsonSerializable {
   int uuid;
   String name;
   String picture;

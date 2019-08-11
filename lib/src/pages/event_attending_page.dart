@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:croc_hack/src/models/character.dart';
 import 'package:flutter/material.dart';
 
-import '../utils.dart';
-
 class EventAttendingPage extends StatefulWidget {
   final Character character;
 
@@ -17,6 +15,9 @@ class EventAttendingPage extends StatefulWidget {
 class EventAttendingPageState extends State<EventAttendingPage> {
   @override
   Widget build(BuildContext context) {
+    // Future.delayed(Duration(seconds: 1));
+    // print(c);
+
     return Scaffold(
         body: NestedScrollView(
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -33,7 +34,7 @@ class EventAttendingPageState extends State<EventAttendingPage> {
                       fontSize: 16.0,
                     )),
                 background: Image.memory(
-                  base64Decode(Utils.pic),
+                  base64Decode(widget.character.picture),
                   fit: BoxFit.cover,
                 )),
           ),
@@ -45,15 +46,18 @@ class EventAttendingPageState extends State<EventAttendingPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text(
-              'description',
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                widget.character.description,
+              ),
             ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-              height: MediaQuery.of(context).size.height * 0.33,
+              height: MediaQuery.of(context).size.height * 0.30,
               child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: 10,
+                  itemCount: widget.character.abilities.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
@@ -68,12 +72,15 @@ class EventAttendingPageState extends State<EventAttendingPage> {
                         child: Column(
                           children: <Widget>[
                             Image.memory(
-                              base64Decode(Utils.pic),
+                              base64Decode(
+                                  widget.character.abilities[index].picture),
                               width: double.infinity,
                               alignment: Alignment.center,
                               fit: BoxFit.fitWidth,
                             ),
-                            Text('$index')
+                            Center(
+                                child: Text(
+                                    widget.character.abilities[index].name))
                           ],
                         ),
                       ),

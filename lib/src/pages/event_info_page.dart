@@ -1,12 +1,13 @@
 import 'dart:convert';
 
+import 'package:croc_hack/src/api/data_provider.dart';
 import 'package:croc_hack/src/blocs/event_info/event_info_bloc.dart';
 import 'package:croc_hack/src/blocs/event_info/event_info_event.dart';
 import 'package:croc_hack/src/blocs/event_info/event_info_state.dart';
+import 'package:croc_hack/src/models/character.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../utils.dart';
 import 'event_attending_page.dart';
 
 class EventInfoPage extends StatefulWidget {
@@ -51,7 +52,7 @@ class EventInfoPageState extends State<EventInfoPage> {
                                 fontSize: 16.0,
                               )),
                           background: Image.memory(
-                            base64Decode(Utils.pic),
+                            base64Decode(state.event.picture),
                             fit: BoxFit.cover,
                           )),
                     ),
@@ -72,9 +73,6 @@ class EventInfoPageState extends State<EventInfoPage> {
                         ),
                       ),
                       buildEventInfo(state),
-                      /*Padding(
-                        padding: EdgeInsets.only(top: 20),
-                      ),*/
                       Padding(
                         padding: const EdgeInsets.only(left: 20.0),
                         child: Text(
@@ -144,7 +142,6 @@ class EventInfoPageState extends State<EventInfoPage> {
   Container buildEventInfo(EventInfoLoaded state) {
     return Container(
       margin: EdgeInsets.only(bottom: 20),
-      // color: Color(0xFFE0E0E0),
       child: Container(
         padding: EdgeInsets.only(top: 30, right: 20, left: 20),
         child: Card(
@@ -172,7 +169,7 @@ class EventInfoPageState extends State<EventInfoPage> {
                     Padding(
                       padding: EdgeInsets.only(left: 20),
                     ),
-                    Text('Бульвар Яна Райниса д. 31')
+                    Text(state.event.location)
                   ],
                 ),
               )
@@ -182,6 +179,9 @@ class EventInfoPageState extends State<EventInfoPage> {
       ),
     );
   }
+
+  final provider = new NetworkDataProvider<Character>(
+      fromJson: (json) => Character.fromJson(json));
 
   Widget _buildCharactersRow(EventInfoLoaded state) {
     return GridView.builder(
@@ -196,11 +196,14 @@ class EventInfoPageState extends State<EventInfoPage> {
               children: <Widget>[
                 GestureDetector(
                   onTap: () async {
+                    var character = await provider
+                        .fetchById(state.event.characters[index].uuid);
+
                     await Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => EventAttendingPage(
-                            character: state.event.characters[index]),
+                        builder: (context) =>
+                            EventAttendingPage(character: character),
                       ),
                     );
                   },
@@ -208,7 +211,7 @@ class EventInfoPageState extends State<EventInfoPage> {
                     alignment: Alignment.center,
                     children: <Widget>[
                       Image.memory(
-                        base64Decode(Utils.pic),
+                        base64Decode(state.event.characters[index].picture),
                         fit: BoxFit.fitWidth,
                         height: 150,
                         width: 200,
@@ -260,10 +263,10 @@ class EventInfoPageState extends State<EventInfoPage> {
             child: Stack(
               children: <Widget>[
                 Image.memory(
-                  base64Decode(/*_event.picture*/ Utils.pic),
+                  base64Decode(state.event.subEvents[itemIndex].picture),
                   width: double.infinity,
                   alignment: Alignment.center,
-                  fit: BoxFit.fitWidth,
+                  fit: BoxFit.fill,
                   height: 250,
                 ),
                 Positioned(

@@ -25,43 +25,46 @@ class EventSelectorPageState extends State<EventSelectorPage> {
     _bloc.dispatch(Started());
 
     return Scaffold(
+      resizeToAvoidBottomPadding: true,
       body: BlocBuilder<EventSelectorBloc, EventSelectorState>(
         bloc: _bloc,
         builder: (BuildContext context, state) {
           if (state is EventSelectorLoading) {
             return Column(children: <Widget>[
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: state.events.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final Event event = state.events[index];
-                    return GestureDetector(
-                        onTap: () async {
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  EventInfoPage(id: state.events[index].uuid),
-                            ),
-                          );
-                        },
-                        child: EventTile(event: event));
-                  }),
+              Expanded(
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: state.events.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final Event event = state.events[index];
+                      return GestureDetector(
+                          onTap: () async {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    EventInfoPage(id: state.events[index].uuid),
+                              ),
+                            );
+                          },
+                          child: EventTile(event: event));
+                    }),
+              ),
             ]);
           }
           if (state is EventSelectorError) {
-            return Center(
-              child: Column(
-                children: <Widget>[
-                  Text('Error ocurred'),
-                  RaisedButton(
-                    child: Text('Try again'),
-                    onPressed: () {
-                      _bloc.dispatch(Started());
-                    },
-                  )
-                ],
-              ),
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text('Error ocurred'),
+                RaisedButton(
+                  child: Text('Try again'),
+                  onPressed: () {
+                    _bloc.dispatch(Started());
+                  },
+                )
+              ],
             );
           }
           return Center(child: CircularProgressIndicator());

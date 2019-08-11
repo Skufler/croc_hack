@@ -7,22 +7,24 @@ import 'json_serializable.dart';
 class NetworkDataProvider<T extends JsonSerializable> {
   Dio _dio = new Dio();
   var data;
+  var type;
   T Function(Object object) fromJson;
 
   NetworkDataProvider({this.fromJson}) {
-    // ToDo: add class name parsing
+    type = T.toString().toLowerCase();
+    if (type == 'ability') {
+      type = 'abilitie';
+    }
   }
 
   Future<List<T>> fetchAll() async {
-    var response = await _dio
-        .get(Constants.SERVICE_URL + T.toString().toLowerCase() + 's');
+    var response = await _dio.get(Constants.SERVICE_URL + type + 's');
 
     if (response == null || response.statusCode != 200)
       throw new FetchDataException(
           message: 'Couldn\'t fetch all ${T.runtimeType}');
 
-    data = List<T>.from(response.data[T.toString().toLowerCase() + 's']
-        .map((x) => this.fromJson(x)));
+    data = List<T>.from(response.data[type + 's'].map((x) => this.fromJson(x)));
     return data;
   }
 
