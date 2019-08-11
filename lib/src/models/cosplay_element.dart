@@ -1,12 +1,12 @@
-class CosplayElements {
+class CosplayElement {
   int uuid;
   String name;
   int cost;
   String url;
 
-  CosplayElements({this.uuid, this.name, this.cost, this.url});
+  CosplayElement({this.uuid, this.name, this.cost, this.url});
 
-  CosplayElements.fromJson(Map<String, dynamic> json) {
+  CosplayElement.fromJson(Map<String, dynamic> json) {
     uuid = json['uuid'];
     name = json['name'];
     cost = json['cost'];

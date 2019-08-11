@@ -1,8 +1,12 @@
 // I don't give a fuck
-enum EventInfoEventType { attend, attended }
+abstract class EventInfoEvent {}
 
-class EventInfoEvent {
-  final EventInfoEventType type;
+class Attended extends EventInfoEvent {}
 
-  EventInfoEvent({this.type: EventInfoEventType.attend}) : assert(type != null);
+class Loading extends EventInfoEvent {}
+
+class Started extends EventInfoEvent {
+  final int id;
+
+  Started(this.id);
 }

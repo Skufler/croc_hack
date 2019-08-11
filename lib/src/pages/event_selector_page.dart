@@ -6,12 +6,15 @@ import 'package:croc_hack/src/widgets/event_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'event_info_page.dart';
+
 class EventSelectorPage extends StatefulWidget {
   @override
   EventSelectorPageState createState() => EventSelectorPageState();
 }
 
 class EventSelectorPageState extends State<EventSelectorPage> {
+  final EventSelectorBloc _bloc = EventSelectorBloc();
   @override
   void initState() {
     super.initState();
@@ -19,19 +22,30 @@ class EventSelectorPageState extends State<EventSelectorPage> {
 
   @override
   Widget build(BuildContext context) {
-    final EventSelectorBloc _bloc = BlocProvider.of<EventSelectorBloc>(context);
     _bloc.dispatch(Started());
+
     return Scaffold(
       body: BlocBuilder<EventSelectorBloc, EventSelectorState>(
+        bloc: _bloc,
         builder: (BuildContext context, state) {
-          if (state is EventSelectorLoaded) {
+          if (state is EventSelectorLoading) {
             return Column(children: <Widget>[
               ListView.builder(
                   shrinkWrap: true,
                   itemCount: state.events.length,
                   itemBuilder: (BuildContext context, int index) {
                     final Event event = state.events[index];
-                    return EventTile(event: event);
+                    return GestureDetector(
+                        onTap: () async {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  EventInfoPage(id: state.events[index].uuid),
+                            ),
+                          );
+                        },
+                        child: EventTile(event: event));
                   }),
             ]);
           }
@@ -54,5 +68,11 @@ class EventSelectorPageState extends State<EventSelectorPage> {
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _bloc.dispose();
+    super.dispose();
   }
 }

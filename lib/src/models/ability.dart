@@ -1,14 +1,13 @@
-class Abilities {
+class Ability {
   int uuid;
   String name;
   String description;
   int damage;
   String picture;
 
-  Abilities(
-      {this.uuid, this.name, this.description, this.damage, this.picture});
+  Ability({this.uuid, this.name, this.description, this.damage, this.picture});
 
-  Abilities.fromJson(Map<String, dynamic> json) {
+  Ability.fromJson(Map<String, dynamic> json) {
     uuid = json['uuid'];
     name = json['name'];
     description = json['description'];

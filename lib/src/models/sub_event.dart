@@ -1,12 +1,12 @@
-class SubEvents {
+class SubEvent {
   int uuid;
   String name;
   String description;
   String date;
 
-  SubEvents({this.uuid, this.name, this.description, this.date});
+  SubEvent({this.uuid, this.name, this.description, this.date});
 
-  SubEvents.fromJson(Map<String, dynamic> json) {
+  SubEvent.fromJson(Map<String, dynamic> json) {
     uuid = json['uuid'];
     name = json['name'];
     description = json['description'];

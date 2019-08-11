@@ -1,15 +1,15 @@
-import 'abilities.dart';
-import 'cosplayelements.dart';
+import 'ability.dart';
+import 'cosplay_element.dart';
 
-class Characters {
+class Character {
   int uuid;
   String name;
   String picture;
   String description;
-  List<Abilities> abilities;
-  List<CosplayElements> cosplayElements;
+  List<Ability> abilities;
+  List<CosplayElement> cosplayElements;
 
-  Characters(
+  Character(
       {this.uuid,
       this.name,
       this.picture,
@@ -17,21 +17,21 @@ class Characters {
       this.abilities,
       this.cosplayElements});
 
-  Characters.fromJson(Map<String, dynamic> json) {
+  Character.fromJson(Map<String, dynamic> json) {
     uuid = json['uuid'];
     name = json['name'];
     picture = json['picture'];
     description = json['description'];
     if (json['abilities'] != null) {
-      abilities = new List<Abilities>();
+      abilities = new List<Ability>();
       json['abilities'].forEach((v) {
-        abilities.add(new Abilities.fromJson(v));
+        abilities.add(new Ability.fromJson(v));
       });
     }
     if (json['cosplayelements'] != null) {
-      cosplayElements = new List<CosplayElements>();
+      cosplayElements = new List<CosplayElement>();
       json['cosplayelements'].forEach((v) {
-        cosplayElements.add(new CosplayElements.fromJson(v));
+        cosplayElements.add(new CosplayElement.fromJson(v));
       });
     }
   }

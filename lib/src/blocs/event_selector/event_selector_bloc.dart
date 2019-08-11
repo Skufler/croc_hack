@@ -1,10 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:croc_hack/src/api/data_provider.dart';
-import 'package:croc_hack/src/blocs/event_selector/event_selector_event.dart';
-import 'package:croc_hack/src/blocs/event_selector/event_selector_state.dart';
 import 'package:croc_hack/src/models/event.dart';
 
 import 'event_selector_event.dart';
+import 'event_selector_state.dart';
 
 class EventSelectorBloc extends Bloc<EventSelectorEvent, EventSelectorState> {
   @override
@@ -18,12 +17,15 @@ class EventSelectorBloc extends Bloc<EventSelectorEvent, EventSelectorState> {
       try {
         if (currentState is EventSelectorUninitialized) {
           final events = await _dataProvider.fetchAll();
-          yield EventSelectorLoaded(events: events);
+          yield EventSelectorLoading(events: events);
           return;
         }
-      } catch (_) {
+      } catch (exception) {
         yield EventSelectorError();
       }
+    }
+    if (event is Clicked) {
+      yield EventSelectorClicked();
     }
   }
 }

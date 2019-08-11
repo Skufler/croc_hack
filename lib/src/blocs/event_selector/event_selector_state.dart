@@ -1,27 +1,3 @@
-//class EventSelectorState {
-//  bool isLoading;
-//  bool isSuccess;
-//  bool isFailed;
-//
-//  EventSelectorState(
-//      {this.isLoading = false, this.isSuccess = false, this.isFailed = false});
-//
-//  factory EventSelectorState.initial() {
-//    return EventSelectorState();
-//  }
-//
-//  factory EventSelectorState.loading() {
-//    return EventSelectorState(isLoading: true);
-//  }
-//
-//  factory EventSelectorState.failed() {
-//    return EventSelectorState(isFailed: true, isLoading: false);
-//  }
-//
-//  factory EventSelectorState.success() {
-//    return EventSelectorState(isSuccess: true, isLoading: false);
-//  }
-//}
 import 'package:croc_hack/src/models/event.dart';
 import 'package:equatable/equatable.dart';
 
@@ -44,22 +20,23 @@ class EventSelectorError extends EventSelectorState {
   String toString() => 'EventSelectorError';
 }
 
-class EventSelectorLoaded extends EventSelectorState {
+class EventSelectorLoading extends EventSelectorState {
   final List<Event> events;
 
-  EventSelectorLoaded({
+  EventSelectorLoading({
     this.events,
   }) : super([events]);
 
-  EventSelectorLoaded copyWith({
-    List<Event> posts,
-    bool hasReachedMax,
+  EventSelectorLoading copyWith({
+    List<Event> events,
   }) {
-    return EventSelectorLoaded(
-      events: posts ?? this.events,
+    return EventSelectorLoading(
+      events: events ?? this.events,
     );
   }
 
   @override
   String toString() => 'EventSelectorLoaded { events: ${events.length} }';
 }
+
+class EventSelectorClicked extends EventSelectorState {}

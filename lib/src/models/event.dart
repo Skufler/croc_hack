@@ -10,9 +10,9 @@ class Event extends JsonSerializable {
   String description;
   String date;
   String picture;
-  List<SubEvents> subEvents;
-  List<Fights> fights;
-  List<Characters> characters;
+  List<SubEvent> subEvents;
+  List<Fight> fights;
+  List<Character> characters;
 
   Event(
       {this.uuid,
@@ -31,21 +31,21 @@ class Event extends JsonSerializable {
     date = json['date'];
     picture = json['picture'];
     if (json['subevents'] != null) {
-      subEvents = new List<SubEvents>();
+      subEvents = new List<SubEvent>();
       json['subevents'].forEach((v) {
-        subEvents.add(new SubEvents.fromJson(v));
+        subEvents.add(new SubEvent.fromJson(v));
       });
     }
     if (json['fights'] != null) {
-      fights = new List<Fights>();
+      fights = new List<Fight>();
       json['fights'].forEach((v) {
-        fights.add(new Fights.fromJson(v));
+        fights.add(new Fight.fromJson(v));
       });
     }
     if (json['characters'] != null) {
-      characters = new List<Characters>();
+      characters = new List<Character>();
       json['characters'].forEach((v) {
-        characters.add(new Characters.fromJson(v));
+        characters.add(new Character.fromJson(v));
       });
     }
   }

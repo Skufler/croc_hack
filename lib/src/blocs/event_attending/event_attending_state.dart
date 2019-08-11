@@ -1,24 +1,27 @@
-class EventAttendingState {
-  bool isLoading;
-  bool isSuccess;
-  bool isFailed;
+import 'package:croc_hack/src/models/character.dart';
+import 'package:equatable/equatable.dart';
 
-  EventAttendingState(
-      {this.isLoading = false, this.isSuccess = false, this.isFailed = false});
+abstract class EventAttendingState extends Equatable {
+  EventAttendingState([List props = const []]) : super(props);
+}
 
-  factory EventAttendingState.initial() {
-    return EventAttendingState();
-  }
+class EventAttendingUninitialized extends EventAttendingState {
+  @override
+  String toString() => 'EventAttendingUninitialized';
+}
 
-  factory EventAttendingState.loading() {
-    return EventAttendingState(isLoading: true);
-  }
+class EventAttendingError extends EventAttendingState {
+  @override
+  String toString() => 'EventAttendingError';
+}
 
-  factory EventAttendingState.failed() {
-    return EventAttendingState(isFailed: true, isLoading: false);
-  }
+class EventAttendingLoaded extends EventAttendingState {
+  final Character character;
 
-  factory EventAttendingState.success() {
-    return EventAttendingState(isSuccess: true, isLoading: false);
-  }
+  EventAttendingLoaded({
+    this.character,
+  }) : super([character]);
+
+  @override
+  String toString() => 'EventAttendingLoaded { character: $character }';
 }

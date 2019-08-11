@@ -1,24 +1,27 @@
-class EventInfoState {
-  bool isLoading;
-  bool isSuccess;
-  bool isFailed;
+import 'package:croc_hack/src/models/event.dart';
+import 'package:equatable/equatable.dart';
 
-  EventInfoState(
-      {this.isLoading = false, this.isSuccess = false, this.isFailed = false});
+abstract class EventInfoState extends Equatable {
+  EventInfoState([List props = const []]) : super(props);
+}
 
-  factory EventInfoState.initial() {
-    return EventInfoState();
-  }
+class EventInfoUninitialized extends EventInfoState {
+  @override
+  String toString() => 'EventInfoUninitialized';
+}
 
-  factory EventInfoState.loading() {
-    return EventInfoState(isLoading: true);
-  }
+class EventInfoError extends EventInfoState {
+  @override
+  String toString() => 'EventInfoError';
+}
 
-  factory EventInfoState.failed() {
-    return EventInfoState(isFailed: true, isLoading: false);
-  }
+class EventInfoLoaded extends EventInfoState {
+  final Event event;
 
-  factory EventInfoState.success() {
-    return EventInfoState(isSuccess: true, isLoading: false);
-  }
+  EventInfoLoaded({
+    this.event,
+  }) : super([event]);
+
+  @override
+  String toString() => 'EventInfoLoaded { event: $event }';
 }
